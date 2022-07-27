@@ -1,0 +1,71 @@
+def arithmetic_arranger(problems, include_answer=False):
+  pr=[]
+  sol=0
+  linum=''
+  stone=''
+  stwo=''
+  sthree=''
+  stour=''
+  arranged_problems=''
+  for probl in problems:
+    if probl.islower() or probl.isupper():
+        return ('Error: Numbers must only contain digits.')
+        break
+  if len(problems)>5:
+    return ('Error: Too many problems.') 
+  else:
+    for prob in problems:
+      pr=prob.split()
+      if len(pr[0])>4 or len(pr[2])>4:
+        return ('Error: Numbers cannot be more than four digits.') 
+        break
+      elif pr[1]!= '+' and pr[1]!='-':
+        return('Error: Operator must be \'+\' or \'-\'.')
+        break
+    for prob in problems:
+        pr=prob.split()
+        if len(pr[0])>len(pr[2]):
+            linum='-'*(len(pr[0])+2)
+        else:
+            linum='-'*(len(pr[2])+2)
+        if prob is problems[-1]:
+            stone+=((' '*(len(linum)-len(pr[0])))+pr[0]+'    ')
+        else:
+            stone+=((' '*(len(linum)-len(pr[0])))+pr[0]+'    ')
+    for prob in problems:
+        pr=prob.split()
+        if len(pr[0])>len(pr[2]):
+            linum='-'*(len(pr[0])+2)
+        else:
+            linum='-'*(len(pr[2])+2)
+        if prob is problems[-1]:
+            stwo+= (pr[1]+(len(linum)-(len(pr[2])+1))*' '+pr[2]+'    ')
+        else:
+            stwo+= (pr[1]+(len(linum)-(len(pr[2])+1))*' '+pr[2]+'    ')
+    for prob in problems:
+        pr=prob.split()
+        if len(pr[0])>len(pr[2]):
+            linum='-'*(len(pr[0])+2)
+        else:
+            linum='-'*(len(pr[2])+2)
+        if prob is problems[-1]:
+            sthree+=(linum+'    ')
+        else:
+            sthree+=(linum+'    ')
+    for prob in problems:
+        pr=prob.split()
+        if len(pr[0])>len(pr[2]):
+            linum='-'*(len(pr[0])+2)
+        else:
+            linum='-'*(len(pr[2])+2)
+        if pr[1]=='+':
+            sol=int(pr[0])+int(pr[2])
+        else:
+            sol=int(pr[0])-int(pr[2])
+        stour+=((len(linum)-len(str(sol)))*' '+str(sol)+'    ')
+    if include_answer==True:
+        arranged_problems= (stone+'\n'+stwo+'\n'+sthree+'\n'+stour)
+    else:
+        arranged_problems= stone+'\n'+stwo+'\n'+sthree
+    return(arranged_problems)
+arithmetic_arranger(["11 + 4", "3801 - 2999", "1 + 2", "123 + 49", "1 - 9380"])
