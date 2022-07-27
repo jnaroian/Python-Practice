@@ -19,7 +19,7 @@ def add_time(start, duration, day='Monday'):
         ans1=int(star[0])+1
         ans2=(int(dura[1])+int(star[1]))-60
     ans1+=int(dura[0])
-    if ans1>12:
+    while ans1>12:
         ans1-=12
         flipcounter+=1
     swer1=str(ans1)+':'
