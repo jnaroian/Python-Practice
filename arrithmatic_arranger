@@ -29,7 +29,7 @@ def arithmetic_arranger(problems, include_answer=False):
         else:
             linum='-'*(len(pr[2])+2)
         if prob is problems[-1]:
-            stone+=((' '*(len(linum)-len(pr[0])))+pr[0]+'    ')
+            stone+=((' '*(len(linum)-len(pr[0])))+pr[0])
         else:
             stone+=((' '*(len(linum)-len(pr[0])))+pr[0]+'    ')
     for prob in problems:
@@ -39,7 +39,7 @@ def arithmetic_arranger(problems, include_answer=False):
         else:
             linum='-'*(len(pr[2])+2)
         if prob is problems[-1]:
-            stwo+= (pr[1]+(len(linum)-(len(pr[2])+1))*' '+pr[2]+'    ')
+            stwo+= (pr[1]+(len(linum)-(len(pr[2])+1))*' '+pr[2])
         else:
             stwo+= (pr[1]+(len(linum)-(len(pr[2])+1))*' '+pr[2]+'    ')
     for prob in problems:
@@ -49,7 +49,7 @@ def arithmetic_arranger(problems, include_answer=False):
         else:
             linum='-'*(len(pr[2])+2)
         if prob is problems[-1]:
-            sthree+=(linum+'    ')
+            sthree+=(linum)
         else:
             sthree+=(linum+'    ')
     for prob in problems:
@@ -62,10 +62,13 @@ def arithmetic_arranger(problems, include_answer=False):
             sol=int(pr[0])+int(pr[2])
         else:
             sol=int(pr[0])-int(pr[2])
-        stour+=((len(linum)-len(str(sol)))*' '+str(sol)+'    ')
+        if prob is problems[-1]:
+            stour+=((len(linum)-len(str(sol)))*' '+str(sol))
+        else:
+            stour+=((len(linum)-len(str(sol)))*' '+str(sol)+'    ')
     if include_answer==True:
         arranged_problems= (stone+'\n'+stwo+'\n'+sthree+'\n'+stour)
     else:
         arranged_problems= stone+'\n'+stwo+'\n'+sthree
     return(arranged_problems)
-arithmetic_arranger(["11 + 4", "3801 - 2999", "1 + 2", "123 + 49", "1 - 9380"])
+#arithmetic_arranger(["11 + 4", "3801 - 2999", "1 + 2", "123 + 49", "1 - 9380"])
