@@ -51,12 +51,18 @@ class Category:
         lgbt=''
         strin=''
         for ledgerbit in self.ledger:
-            if len(ledgerbit['description'])<=23:
-                strin+=(ledgerbit['description'] + str(ledgerbit['amount']).rjust(30-len(ledgerbit['description']))+'\n')
-            else: 
-                lgbt=ledgerbit['description'][:23]
-                strin+=(lgbt + str(ledgerbit['amount']).rjust(7)+'\n')
-
+            if int(ledgerbit['amount'])!= ledgerbit['amount']:
+                if len(ledgerbit['description'])<=23:
+                    strin+=(ledgerbit['description'] + str(ledgerbit['amount']).rjust(30-len(ledgerbit['description']))+'\n')
+                else: 
+                    lgbt=ledgerbit['description'][:23]
+                    strin+=(lgbt + str(float(ledgerbit['amount'])).rjust(7)+'\n')
+            else:
+                if len(ledgerbit['description'])<=23:
+                    strin+=(ledgerbit['description'] + (str(ledgerbit['amount'])+'.00').rjust(30-len(ledgerbit['description']))+'\n')
+                else: 
+                    lgbt=ledgerbit['description'][:23]
+                    strin+=(lgbt + (str(ledgerbit['amount'])+'.00').rjust(7)+'\n')
         return strin
     def total(self):
         return('Total: '+ str(self.balance))
