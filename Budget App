@@ -1,6 +1,5 @@
 from __future__ import annotations
 from typing import Union
-import math
 floatint=Union[float,int]
 class Category:
     totalwithdrawls=0
@@ -19,6 +18,8 @@ class Category:
             self.ledgerbit={'amount':(-1*amount),'description':description}
             self.ledger.append(self.ledgerbit)
             self.balance-=amount
+            self.withdrawls+=amount
+            Category.totalwithdrawls+=amount
             return True
         else:
             return False
@@ -40,11 +41,11 @@ class Category:
             return True
         else:
             return False
-    def __string__(self):
+    def __str__(self):
         firstline=self.title()
         middlelines=self.nums()
         totaline=self.total()
-        print(firstline+middlelines+totaline)
+        return(firstline+middlelines+totaline)
     def title(self):
         return(self.name.center(30,'*')+'\n')
     def nums(self):
@@ -65,11 +66,84 @@ class Category:
                     strin+=(lgbt + (str(ledgerbit['amount'])+'.00').rjust(7)+'\n')
         return strin
     def total(self):
-        return('Total: '+ str(self.balance))
-
-bleep=Category('Entertainment')
-testobj=Category('Food')
-testobj.deposit(900,'deposit')
-testobj.withdraw(45.67, "milk, cereal, eggs, bacon, bread")
-testobj.transfer(20, bleep)
-testobj.__string__()
+        if int(self.balance)!=self.balance:
+            return('Total: '+ str(self.balance))
+        else:
+            return('Total: '+ str(self.balance)+'.00')
+    def percent(self):
+        return(round(((self.withdrawls/Category.totalwithdrawls)*100)/10)*10)
+def create_spend_chart(category:Category):
+    spendchart=''
+    strin='Percentage spent by category'+'\n'
+    i=100
+    maxn=0
+    k=0
+    for c in category:
+        if len(c.name)>maxn:
+            maxn=len(c.name)
+    while i>=0:
+        if i==100:
+            while k<len(category):
+                if category[k].percent()>=i and k==0:
+                    strin+=str(i)+'|'+ '    '+' o'
+                    k+=1
+                elif category[k].percent()>=i and k!=0:
+                    strin+= (k*'  ')+'o'
+                    k+=1
+                elif k>0:
+                    k+=1
+                else:
+                    strin+=str(i)+'|'
+                    k+=1
+            strin+='\n'
+        elif i<100 and i>0:
+            k=0
+            while k<len(category):
+                if category[k].percent()>=i and k==0:
+                    strin+=' '+str(i)+'|'+' o  '
+                    k+=1
+                elif category[k].percent()>=i and k!=0:
+                    strin+= 'o  '
+                    k+=1
+                elif k>0:
+                    k+=1
+                else:
+                    strin+=' '+str(i)+'|    '
+                    k+=1
+            strin+='\n'
+        else:
+            k=0
+            while k<len(category):
+                if category[k].percent()>=i and k==0:
+                    strin+='  '+str(i)+'|'+' o'
+                    k+=1
+                elif category[k].percent()>=i and k!=0:
+                    strin+= '  o'
+                    k+=1
+                elif k>0:
+                    k+=1
+                else:
+                    strin+='  '+str(i)+'|'
+                    k+=1
+            strin+='\n'
+        i-=10
+    strin+=('    '+(len(category)*3+1)*'-')
+    spendchart=strin
+    strin='     '
+    i=0
+    while i<maxn:
+        for cat in category:
+            if i>=len(cat.name):
+                strin += '   '
+            else:
+                strin += cat.name[i]+'  '
+        strin+='\n'+'     '
+        i+=1
+    print(spendchart+'\n'+ strin)
+food=Category('Food')
+entertainment=Category('Entertainment')
+business=Category('Business')
+food.deposit(900, "deposit")
+food.withdraw(45.67, "milk, cereal, eggs, bacon, bread")
+food.transfer(20, entertainment)
+str(food)
