@@ -1,0 +1,64 @@
+import copy
+import random
+# Consider using the modules imported above.
+
+class Hat:
+    def __init__(self, **balls):
+        self.contents=[]
+        for k in balls:
+            for v in range(balls.get(k)):
+                self.contents.append(k)
+    def drawcopy(self, number:int):
+        picked=[]
+        conts2=copy.deepcopy(self.contents)
+        if number>len(self.contents):
+            return self.contents
+        else:
+            for num in range(number):
+                pick=''
+                pick=(random.choice(conts2))
+                conts2.remove(pick)
+                picked.append(pick)
+            return picked
+    def draw(self, number:int):
+        picked=[]
+        if number>len(self.contents):
+            return self.contents
+        else:
+            for num in range(number):
+                pick=''
+                pick=(random.choice(self.contents))
+                self.contents.remove(pick)
+                picked.append(pick)
+            return picked
+hat = Hat(blue=3,red=2,green=6)
+
+def experiment(hat, expected_balls, num_balls_drawn, num_experiments):
+    i=0
+    M=0
+    bls=[]
+    exbls=[]
+    exblss=[]
+    for k in expected_balls:
+        for v in range(expected_balls.get(k)):
+            exbls.append(k)
+
+    for i in range(num_experiments):
+        bls=hat.drawcopy(num_balls_drawn)
+        #print (sorted(bls))
+        #print (sorted(exbls))
+        exblss=copy.deepcopy(exbls)
+        for item in bls:
+            if item in exblss:
+                exblss.remove(item)
+                if len(exblss)==0:
+                    M+=1  
+        #print (hat.contents)
+        #new_list=  all(item in sorted(exbls) for item in sorted(bls))
+        #if new_list is True:
+         #   M+=1
+        #else:
+           # continue
+        #if sorted(exbls) == sorted(bls) or (set(sorted(exbls)).issubset(set(sorted(bls)))):  
+    return(M)
+experiment(hat, {"blue":2,"green":1}, 4,1000)  
